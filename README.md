@@ -12,7 +12,7 @@ cp .env.example .env
 # Add your ANTHROPIC_API_KEY to .env
 ```
 
-## Lessons
+## Fundamentals
 
 | Lesson | Topic | What You Learn |
 |--------|-------|----------------|
@@ -22,8 +22,20 @@ cp .env.example .env
 | 04_tool_loop | Agentic loop | The core loop that drives agents |
 | 05_research_agent | Full research agent | Planning, searching, synthesizing |
 
+## Loop Patterns (`loops/`)
+
+Based on Anthropic's "Startup Builds: Getting Started with Loops" (Mark Nowicki).
+
+| Pattern | Folder | When to use |
+|---------|--------|-------------|
+| Turn-based | `loops/01_turn_based` | You prompt once; agent runs until it judges done |
+| Goal-based | `loops/02_goal_based` | Loop until a condition is met or turn cap hit |
+| Time-based | `loops/03_time_based` | Re-run on a fixed interval (cron-style) |
+| Proactive | `loops/04_proactive` | Triggered by an event with no one at the keyboard |
+
 ## Reference
 
 - [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
 - [Claude API Docs](https://docs.anthropic.com)
 - Book: *Building Applications with AI Agents* — Michael Albada
+- Webinar: *Startup Builds: Getting Started with Loops* — Mark Nowicki, Anthropic
