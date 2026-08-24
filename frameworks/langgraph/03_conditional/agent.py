@@ -14,13 +14,14 @@ This pattern models real-world systems: customer support routing,
 code review pipelines, multi-expert agents.
 """
 
+import operator
 import os
-from typing import TypedDict, Annotated, Literal
+from typing import Annotated, Literal, TypedDict
+
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage
-from langgraph.graph import StateGraph, START, END
-import operator
+from langgraph.graph import END, START, StateGraph
 
 load_dotenv()
 

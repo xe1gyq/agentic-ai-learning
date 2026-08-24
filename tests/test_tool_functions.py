@@ -12,8 +12,6 @@ Functions tested:
 """
 
 import json
-import pytest
-
 
 # ---------------------------------------------------------------------------
 # calculate() — tested independently (same logic appears in multiple files)

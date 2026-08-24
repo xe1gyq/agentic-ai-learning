@@ -13,13 +13,14 @@ Key concepts:
 - START / END: built-in entry and exit points
 """
 
+import operator
 import os
-from typing import TypedDict, Annotated
+from typing import Annotated, TypedDict
+
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
-from langchain_core.messages import HumanMessage, AIMessage
-from langgraph.graph import StateGraph, START, END
-import operator
+from langchain_core.messages import HumanMessage
+from langgraph.graph import END, START, StateGraph
 
 load_dotenv()
 

@@ -14,7 +14,6 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from typing import Any
 
-
 MODEL = "claude-sonnet-4-6"
 CONTEXT_BUDGET_CHARS = 320
 SYSTEM_PROMPT = (

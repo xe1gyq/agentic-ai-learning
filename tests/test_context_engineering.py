@@ -4,7 +4,6 @@ import pytest
 
 from tests.lesson_loader import load_lesson_module
 
-
 lesson = load_lesson_module(
     "context_engineering_lesson",
     "fundamentals/07_context_engineering/agent.py",

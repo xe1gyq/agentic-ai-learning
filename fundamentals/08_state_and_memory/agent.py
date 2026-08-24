@@ -18,7 +18,6 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-
 MODEL = "claude-sonnet-4-6"
 WORD_PATTERN = re.compile(r"[a-zA-Z0-9_]+")
 

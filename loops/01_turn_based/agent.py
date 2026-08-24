@@ -9,8 +9,9 @@ let the agent run to completion on its own.
 """
 
 import os
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 

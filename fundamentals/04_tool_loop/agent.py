@@ -7,10 +7,11 @@ Claude can call tools multiple times before giving a final answer.
 This is the observe -> think -> act cycle that drives autonomous agents.
 """
 
-import os
 import json
-from dotenv import load_dotenv
+import os
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 

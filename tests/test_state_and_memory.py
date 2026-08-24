@@ -6,7 +6,6 @@ import pytest
 
 from tests.lesson_loader import load_lesson_module
 
-
 lesson = load_lesson_module(
     "state_and_memory_lesson",
     "fundamentals/08_state_and_memory/agent.py",
@@ -65,4 +64,3 @@ def test_run_state_is_explicit_and_ephemeral():
 
     assert state.step == 2
     assert state.observations == ["tests_started", "tests_passed"]
-

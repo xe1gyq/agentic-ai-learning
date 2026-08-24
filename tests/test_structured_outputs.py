@@ -8,7 +8,6 @@ import pytest
 
 from tests.lesson_loader import load_lesson_module
 
-
 lesson = load_lesson_module(
     "structured_outputs_lesson",
     "fundamentals/06_structured_outputs/agent.py",
@@ -57,4 +56,3 @@ def test_api_call_uses_json_schema_and_parses_result():
     output_format = kwargs["output_config"]["format"]
     assert output_format["type"] == "json_schema"
     assert output_format["schema"] == lesson.TASK_SPEC_SCHEMA
-

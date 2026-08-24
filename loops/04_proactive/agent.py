@@ -23,10 +23,11 @@ import os
 import time
 from datetime import datetime
 from pathlib import Path
-from dotenv import load_dotenv
+
 import anthropic
-from watchdog.observers import Observer
+from dotenv import load_dotenv
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 load_dotenv()
 

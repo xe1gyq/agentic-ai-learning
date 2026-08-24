@@ -8,10 +8,11 @@ This is a ONE-SHOT tool call — one user message, one tool call, one final answ
 Lesson 04 will handle multiple sequential tool calls (the agentic loop).
 """
 
-import os
 import json
-from dotenv import load_dotenv
+import os
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 

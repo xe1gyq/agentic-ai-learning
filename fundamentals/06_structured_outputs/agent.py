@@ -12,7 +12,6 @@ import os
 import sys
 from typing import Any
 
-
 MODEL = "claude-sonnet-4-6"
 
 TASK_SPEC_SCHEMA: dict[str, Any] = {

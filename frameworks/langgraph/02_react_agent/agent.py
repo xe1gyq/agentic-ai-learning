@@ -14,15 +14,16 @@ Compare with:
   frameworks/langchain/03_agent/agent.py (hidden loop)
 """
 
+import operator
 import os
-from typing import TypedDict, Annotated
+from typing import Annotated, TypedDict
+
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
-from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage
-from langgraph.graph import StateGraph, START, END
+from langchain_core.tools import tool
+from langgraph.graph import START, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
-import operator
 
 load_dotenv()
 

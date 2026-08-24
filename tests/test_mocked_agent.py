@@ -14,8 +14,6 @@ The conftest.py fixtures (make_text_response, make_tool_use_response)
 build fake Message objects that look identical to real ones.
 """
 
-import pytest
-from unittest.mock import MagicMock, patch
 from tests.conftest import make_text_response, make_tool_use_response
 
 

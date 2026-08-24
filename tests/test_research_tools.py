@@ -15,12 +15,11 @@ The real DuckDuckGo HTML structure is what we're parsing, so we include
 a realistic HTML fixture.
 """
 
-import json
-import pytest
-
 # This import works because conftest.py adds the repo root to sys.path
 # and tools.py has no module-level side effects (no client creation, no loops)
-import importlib.util, sys, os
+import importlib.util
+import json
+import os
 
 # Load tools.py directly by file path — avoids issues with folder names
 # starting with numbers (e.g. "05_research_agent" is not a valid Python identifier)

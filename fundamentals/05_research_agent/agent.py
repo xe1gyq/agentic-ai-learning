@@ -14,8 +14,9 @@ Usage:
 
 import os
 import sys
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 from tools import TOOL_DEFINITIONS, run_tool
 

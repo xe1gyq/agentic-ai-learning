@@ -12,8 +12,9 @@ Key fixtures:
 
 import os
 import sys
+from unittest.mock import MagicMock
+
 import pytest
-from unittest.mock import MagicMock, patch
 
 # Make the repo root importable from tests/
 # This lets us do: from fundamentals.five_research_agent.tools import search_web

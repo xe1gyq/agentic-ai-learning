@@ -17,11 +17,12 @@ Compare with: fundamentals/04_tool_loop/agent.py
 """
 
 import os
+
 from dotenv import load_dotenv
-from langchain_anthropic import ChatAnthropic
-from langchain_core.tools import tool
 from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.tools import tool
 
 load_dotenv()
 

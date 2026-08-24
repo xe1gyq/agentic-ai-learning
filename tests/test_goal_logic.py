@@ -18,7 +18,6 @@ For now, we test the goal logic independently — same function, tested inline.
 
 import pytest
 
-
 REQUIRED_KEYWORDS = ["reliable", "fast", "affordable"]
 
 

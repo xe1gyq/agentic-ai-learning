@@ -12,8 +12,9 @@ improve until all three words appear, or we hit MAX_TURNS.
 """
 
 import os
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 
