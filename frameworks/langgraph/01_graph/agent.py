@@ -13,13 +13,14 @@ Key concepts:
 - START / END: built-in entry and exit points
 """
 
+import operator
 import os
-from typing import TypedDict, Annotated
+from typing import Annotated, TypedDict
+
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
-from langchain_core.messages import HumanMessage, AIMessage
-from langgraph.graph import StateGraph, START, END
-import operator
+from langchain_core.messages import HumanMessage
+from langgraph.graph import END, START, StateGraph
 
 load_dotenv()
 
@@ -41,12 +42,11 @@ class AgentState(TypedDict):
 # --- 2. Define Nodes ---
 # Each node is a function: State → dict of updates to State
 
+
 def research_node(state: AgentState) -> dict:
     """Node 1: Ask Claude a question about the topic."""
     print(f"[research_node] researching: {state['topic']}")
-    response = llm.invoke([
-        HumanMessage(content=f"Give me 3 key facts about: {state['topic']}")
-    ])
+    response = llm.invoke([HumanMessage(content=f"Give me 3 key facts about: {state['topic']}")])
     return {"messages": [response]}
 
 
@@ -54,9 +54,9 @@ def summary_node(state: AgentState) -> dict:
     """Node 2: Summarize what was found."""
     print("[summary_node] summarizing...")
     last_message = state["messages"][-1].content
-    response = llm.invoke([
-        HumanMessage(content=f"Summarize this in one sentence:\n\n{last_message}")
-    ])
+    response = llm.invoke(
+        [HumanMessage(content=f"Summarize this in one sentence:\n\n{last_message}")]
+    )
     return {"messages": [response]}
 
 

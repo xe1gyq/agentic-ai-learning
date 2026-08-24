@@ -14,15 +14,13 @@ The conftest.py fixtures (make_text_response, make_tool_use_response)
 build fake Message objects that look identical to real ones.
 """
 
-import pytest
-from unittest.mock import MagicMock, patch
 from tests.conftest import make_text_response, make_tool_use_response
-
 
 # ---------------------------------------------------------------------------
 # Helper: a minimal agentic loop we can test directly
 # (same pattern as fundamentals/04_tool_loop — extracted for testability)
 # ---------------------------------------------------------------------------
+
 
 def run_simple_loop(client, messages: list, tools: list, tool_fn) -> str:
     """
@@ -43,20 +41,20 @@ def run_simple_loop(client, messages: list, tools: list, tool_fn) -> str:
         messages.append({"role": "assistant", "content": response.content})
 
         if response.stop_reason == "end_turn":
-            return next(
-                (b.text for b in response.content if hasattr(b, "text")), ""
-            )
+            return next((b.text for b in response.content if hasattr(b, "text")), "")
 
         if response.stop_reason == "tool_use":
             tool_results = []
             for block in response.content:
                 if block.type == "tool_use":
                     result = tool_fn(block.name, block.input)
-                    tool_results.append({
-                        "type": "tool_result",
-                        "tool_use_id": block.id,
-                        "content": result,
-                    })
+                    tool_results.append(
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": result,
+                        }
+                    )
             messages.append({"role": "user", "content": tool_results})
 
 
@@ -110,6 +108,7 @@ class TestAgentLoopWithTools:
         mock_client.messages.create.side_effect = [tool_use_resp, final_resp]
 
         tool_calls = []
+
         def fake_tool(name: str, inp: dict) -> str:
             tool_calls.append((name, inp))
             return "4"
@@ -145,9 +144,12 @@ class TestAgentLoopWithTools:
         # So we search for the tool_result message rather than relying on index -1.
         second_call_messages = mock_client.messages.create.call_args_list[1].kwargs["messages"]
         tool_result_msgs = [
-            m for m in second_call_messages
-            if m["role"] == "user" and isinstance(m.get("content"), list)
-            and m["content"] and m["content"][0].get("type") == "tool_result"
+            m
+            for m in second_call_messages
+            if m["role"] == "user"
+            and isinstance(m.get("content"), list)
+            and m["content"]
+            and m["content"][0].get("type") == "tool_result"
         ]
         assert len(tool_result_msgs) == 1, "Expected exactly one tool_result message"
         assert tool_result_msgs[0]["content"][0]["content"] == "9"
@@ -161,6 +163,7 @@ class TestAgentLoopWithTools:
         mock_client.messages.create.side_effect = [tool_call_1, tool_call_2, final]
 
         tool_calls = []
+
         def fake_tool(name, inp):
             tool_calls.append(inp["expression"])
             return str(eval(inp["expression"]))

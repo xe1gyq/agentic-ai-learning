@@ -9,8 +9,10 @@ let the agent run to completion on its own.
 """
 
 import os
-from dotenv import load_dotenv
+from typing import Any
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -65,7 +67,7 @@ print("TURN-BASED LOOP")
 print("=" * 55)
 print(f"Prompt: {TASK}\n")
 
-messages = [{"role": "user", "content": TASK}]
+messages: list[dict[str, Any]] = [{"role": "user", "content": TASK}]
 step = 0
 
 # THE LOOP — runs until Claude says "end_turn"
@@ -95,9 +97,11 @@ while True:
             if block.type == "tool_use":
                 result = run_tool(block.name, block.input)
                 print(f"  tool: {block.name}({block.input}) → {result}")
-                tool_results.append({
-                    "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": result,
-                })
+                tool_results.append(
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": block.id,
+                        "content": result,
+                    }
+                )
         messages.append({"role": "user", "content": tool_results})

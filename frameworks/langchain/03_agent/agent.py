@@ -17,11 +17,12 @@ Compare with: fundamentals/04_tool_loop/agent.py
 """
 
 import os
+
 from dotenv import load_dotenv
-from langchain_anthropic import ChatAnthropic
-from langchain_core.tools import tool
 from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.tools import tool
 
 load_dotenv()
 
@@ -34,6 +35,7 @@ llm = ChatAnthropic(
 # --- Define tools with the @tool decorator ---
 # LangChain reads the function name, docstring, and type hints
 # to build the JSON schema automatically.
+
 
 @tool
 def calculate(expression: str) -> str:
@@ -56,11 +58,13 @@ tools = [calculate, get_word_count]
 
 # --- Create the agent ---
 # AgentExecutor wraps the tool loop we wrote manually in 04_tool_loop
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant. Use tools when needed."),
-    ("human", "{input}"),
-    ("placeholder", "{agent_scratchpad}"),  # required by LangChain agents
-])
+prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", "You are a helpful assistant. Use tools when needed."),
+        ("human", "{input}"),
+        ("placeholder", "{agent_scratchpad}"),  # required by LangChain agents
+    ]
+)
 
 agent = create_tool_calling_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
@@ -68,12 +72,14 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 # --- Run it ---
 # verbose=True shows you the tool calls — compare with our manual loop output
 print("=" * 55)
-result = agent_executor.invoke({
-    "input": (
-        "I have a text: 'The quick brown fox jumps over the lazy dog'. "
-        "How many words does it have? Also calculate 15% of 240."
-    )
-})
+result = agent_executor.invoke(
+    {
+        "input": (
+            "I have a text: 'The quick brown fox jumps over the lazy dog'. "
+            "How many words does it have? Also calculate 15% of 240."
+        )
+    }
+)
 
 print("\nFinal answer:")
 print(result["output"])
