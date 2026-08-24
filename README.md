@@ -21,6 +21,14 @@ cp .env.example .env
 | fundamentals/03_tools | Tool use | How the model requests function calls |
 | fundamentals/04_tool_loop | Agentic loop | The core loop that drives agents |
 | fundamentals/05_research_agent | Full research agent | Planning, searching, synthesizing |
+| fundamentals/06_structured_outputs | Output contracts | Schema-valid JSON and downstream validation |
+| fundamentals/07_context_engineering | Context selection | Relevance, provenance, budgets, and token counting |
+| fundamentals/08_state_and_memory | State and memory | Ephemeral run state vs. durable, retrieved memory |
+
+The model supplies probabilistic reasoning. The surrounding application owns contracts,
+context policy, storage, permissions, verification, and stop conditions. See the
+[`fundamentals/` learning map](fundamentals/README.md) for how these responsibilities fit
+together.
 
 ## Loop Patterns (`loops/`)
 
@@ -61,3 +69,4 @@ Same patterns rebuilt with LangChain and LangGraph. Compare side by side.
 - [LangGraph Docs](https://langchain-ai.github.io/langgraph/)
 - Book: *Building Applications with AI Agents* — Michael Albada
 - Webinar: *Startup Builds: Getting Started with Loops* — Mark Nowicki, Anthropic
+
