@@ -12,15 +12,15 @@ cp .env.example .env
 # Add your ANTHROPIC_API_KEY to .env
 ```
 
-## Fundamentals
+## Fundamentals (`fundamentals/`)
 
 | Lesson | Topic | What You Learn |
 |--------|-------|----------------|
-| 01_basics | Single API call | Request/response cycle |
-| 02_conversation | Multi-turn chat | Message history and context |
-| 03_tools | Tool use | How the model requests function calls |
-| 04_tool_loop | Agentic loop | The core loop that drives agents |
-| 05_research_agent | Full research agent | Planning, searching, synthesizing |
+| fundamentals/01_basics | Single API call | Request/response cycle |
+| fundamentals/02_conversation | Multi-turn chat | Message history and context |
+| fundamentals/03_tools | Tool use | How the model requests function calls |
+| fundamentals/04_tool_loop | Agentic loop | The core loop that drives agents |
+| fundamentals/05_research_agent | Full research agent | Planning, searching, synthesizing |
 
 ## Loop Patterns (`loops/`)
 
