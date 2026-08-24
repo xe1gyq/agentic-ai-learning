@@ -1,0 +1,35 @@
+# pyproject.toml — central config for all dev tools.
+# One file instead of setup.cfg, .flake8, .mypy.ini, pytest.ini.
+
+[tool.pytest.ini_options]
+# Where pytest looks for tests
+testpaths = ["tests"]
+# Show short test summary, verbose output
+addopts = "-v --tb=short --cov=. --cov-report=term-missing"
+
+[tool.coverage.run]
+# Don't count venv or __main__ blocks in coverage
+omit = ["venv/*", "*/site-packages/*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+# E = pycodestyle errors, F = pyflakes, I = isort, UP = pyupgrade
+select = ["E", "F", "I", "UP"]
+# Ignore: E501 line too long (handled by formatter), E402 module import not at top (scripts)
+ignore = ["E501", "E402"]
+
+[tool.ruff.lint.per-file-ignores]
+# eval() is intentional in these files
+"*/03_tools/agent.py" = ["S307"]
+"*/03_agent/agent.py" = ["S307"]
+"*/02_react_agent/agent.py" = ["S307"]
+"*/01_turn_based/agent.py" = ["S307"]
+
+[tool.mypy]
+python_version = "3.11"
+# Don't fail on missing stubs for third-party libraries
+ignore_missing_imports = true
+# Don't type-check venv
+exclude = ["venv/"]

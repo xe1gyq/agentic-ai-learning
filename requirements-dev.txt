@@ -1,0 +1,13 @@
+# Development dependencies — not needed to run the examples,
+# only needed for testing, linting, and type checking.
+#
+# Install with: pip install -r requirements-dev.txt
+
+pytest          # test runner
+pytest-mock     # mock fixtures (mocker.patch, etc.)
+pytest-cov      # coverage reporting
+ruff            # fast linter + formatter (replaces flake8 + black + isort)
+mypy            # static type checker
+pre-commit      # git hook runner
+pip-audit       # dependency vulnerability scanner
+types-requests  # mypy stubs for the requests library
