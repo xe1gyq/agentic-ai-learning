@@ -3,3 +3,7 @@ requests
 python-dotenv
 schedule
 watchdog
+# frameworks
+langchain
+langchain-anthropic
+langgraph

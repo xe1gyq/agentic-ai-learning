@@ -33,9 +33,31 @@ Based on Anthropic's "Startup Builds: Getting Started with Loops" (Mark Nowicki)
 | Time-based | `loops/03_time_based` | Re-run on a fixed interval (cron-style) |
 | Proactive | `loops/04_proactive` | Triggered by an event with no one at the keyboard |
 
+## Frameworks (`frameworks/`)
+
+Same patterns rebuilt with LangChain and LangGraph. Compare side by side.
+
+**LangChain** — higher-level abstractions, hides the loop:
+
+| Example | What it shows |
+|---------|---------------|
+| `frameworks/langchain/01_basics` | ChatAnthropic vs raw SDK |
+| `frameworks/langchain/02_chain` | Prompt templates + LCEL pipe syntax |
+| `frameworks/langchain/03_agent` | AgentExecutor handles the tool loop |
+
+**LangGraph** — explicit graph structure, full control:
+
+| Example | What it shows |
+|---------|---------------|
+| `frameworks/langgraph/01_graph` | StateGraph: nodes, edges, shared state |
+| `frameworks/langgraph/02_react_agent` | ReAct loop as a visible graph |
+| `frameworks/langgraph/03_conditional` | Conditional routing between specialist nodes |
+
 ## Reference
 
 - [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
 - [Claude API Docs](https://docs.anthropic.com)
+- [LangChain Docs](https://python.langchain.com)
+- [LangGraph Docs](https://langchain-ai.github.io/langgraph/)
 - Book: *Building Applications with AI Agents* — Michael Albada
 - Webinar: *Startup Builds: Getting Started with Loops* — Mark Nowicki, Anthropic
