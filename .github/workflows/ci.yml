@@ -62,7 +62,11 @@ jobs:
         run: pip install mypy types-requests
 
       - name: Run mypy
-        run: mypy . --ignore-missing-imports --exclude venv
+        # Numbered lessons are standalone scripts and intentionally reuse agent.py.
+        # Check each script independently so mypy does not collapse them into one module.
+        run: |
+          find fundamentals frameworks loops tests -type f -name '*.py' -print0 \
+            | xargs -0 -n 1 mypy --ignore-missing-imports
 
   # -----------------------------------------------------------------------
   # Job 3: Tests + Coverage

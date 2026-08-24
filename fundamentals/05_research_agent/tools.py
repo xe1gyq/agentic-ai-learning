@@ -11,7 +11,6 @@ import re
 
 import requests
 
-
 HEADERS = {"User-Agent": "Mozilla/5.0 (research-agent-learning/1.0)"}
 
 

@@ -17,7 +17,6 @@ import sys
 
 import anthropic
 from dotenv import load_dotenv
-
 from tools import TOOL_DEFINITIONS, run_tool
 
 load_dotenv()

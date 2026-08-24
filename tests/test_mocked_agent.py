@@ -16,7 +16,6 @@ build fake Message objects that look identical to real ones.
 
 from tests.conftest import make_text_response, make_tool_use_response
 
-
 # ---------------------------------------------------------------------------
 # Helper: a minimal agentic loop we can test directly
 # (same pattern as fundamentals/04_tool_loop — extracted for testability)
