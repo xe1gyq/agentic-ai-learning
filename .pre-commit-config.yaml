@@ -1,0 +1,49 @@
+# .pre-commit-config.yaml
+#
+# Pre-commit hooks run automatically before every `git commit`.
+# They catch problems locally before they reach GitHub CI.
+#
+# Setup (one time):
+#   pip install pre-commit
+#   pre-commit install          # installs the git hook
+#
+# Run manually on all files:
+#   pre-commit run --all-files
+#
+# Each hook below is pinned to a specific version (rev:) for reproducibility.
+# Update all hooks to latest versions with: pre-commit autoupdate
+
+repos:
+  # ruff: linting (catches bugs, bad imports, unused vars)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        name: ruff lint
+        args: [--fix]          # auto-fix what it can
+      - id: ruff-format
+        name: ruff format      # replaces black
+
+  # mypy: static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        name: mypy type check
+        additional_dependencies:
+          - types-requests      # stubs for requests library
+        args: [--ignore-missing-imports]
+        # Only check files we have tests for (avoid checking venv/)
+        exclude: ^(venv/|\.github/)
+
+  # General hooks: trailing whitespace, file endings, YAML/TOML validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: debug-statements     # catches leftover breakpoint() / pdb calls
