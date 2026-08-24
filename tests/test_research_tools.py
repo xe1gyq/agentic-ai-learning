@@ -25,9 +25,13 @@ import os
 # starting with numbers (e.g. "05_research_agent" is not a valid Python identifier)
 _tools_path = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "fundamentals", "05_research_agent", "tools.py"
+    "fundamentals",
+    "05_research_agent",
+    "tools.py",
 )
 _spec = importlib.util.spec_from_file_location("research_tools", _tools_path)
+if _spec is None or _spec.loader is None:
+    raise ImportError(f"Cannot load research tools from {_tools_path}")
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 
@@ -59,7 +63,6 @@ FAKE_PAGE_HTML = """
 
 
 class TestSearchWeb:
-
     def test_returns_json_list(self, mocker):
         """search_web should return a JSON-encoded list of results."""
         mock_resp = mocker.MagicMock()
@@ -89,6 +92,7 @@ class TestSearchWeb:
     def test_network_error_returns_error_json(self, mocker):
         """If requests raises an exception, return JSON with an error key."""
         import requests
+
         mocker.patch("requests.get", side_effect=requests.RequestException("timeout"))
 
         result = search_web("anything")
@@ -111,7 +115,6 @@ class TestSearchWeb:
 
 
 class TestGetPage:
-
     def test_strips_html_tags(self, mocker):
         """get_page should return plain text, not HTML."""
         mock_resp = mocker.MagicMock()
@@ -142,6 +145,7 @@ class TestGetPage:
     def test_network_error_returns_error_string(self, mocker):
         """If requests raises, return a human-readable error string."""
         import requests
+
         mocker.patch("requests.get", side_effect=requests.RequestException("refused"))
 
         result = get_page("https://bad.example.com")
@@ -150,7 +154,6 @@ class TestGetPage:
 
 
 class TestRunToolDispatch:
-
     def test_dispatches_search_web(self, mocker):
         mock_resp = mocker.MagicMock()
         mock_resp.text = FAKE_DDG_HTML

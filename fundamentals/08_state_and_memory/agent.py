@@ -66,10 +66,7 @@ class JsonMemoryStore:
                 raise ValueError("memory payload must be a JSON object")
             if payload.get("version") != 1 or not isinstance(payload.get("records"), dict):
                 raise ValueError("unsupported memory format")
-            return {
-                key: MemoryRecord(**record)
-                for key, record in payload["records"].items()
-            }
+            return {key: MemoryRecord(**record) for key, record in payload["records"].items()}
         except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
             raise MemoryStoreError(f"Cannot load memory store {self.path}: {exc}") from exc
 

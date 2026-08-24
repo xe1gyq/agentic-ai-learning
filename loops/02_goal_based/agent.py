@@ -25,6 +25,7 @@ client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 # ---------------------------------------------------------------
 REQUIRED_KEYWORDS = ["reliable", "fast", "affordable"]
 
+
 def goal_met(text: str) -> bool:
     """Return True when all required keywords appear in the output."""
     text_lower = text.lower()

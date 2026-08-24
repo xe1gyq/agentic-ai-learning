@@ -28,9 +28,7 @@ llm = ChatAnthropic(
 )
 
 # .invoke() takes a list of messages (just like the raw SDK)
-response = llm.invoke([
-    HumanMessage(content="What is an AI agent? Answer in 3 sentences.")
-])
+response = llm.invoke([HumanMessage(content="What is an AI agent? Answer in 3 sentences.")])
 
 print("Claude says:")
 print(response.content)

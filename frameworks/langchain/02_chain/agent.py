@@ -26,10 +26,12 @@ llm = ChatAnthropic(
 
 # --- Example 1: Simple prompt template ---
 # {topic} is a placeholder filled in at call time
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are an expert teacher. Explain concepts simply."),
-    ("human", "Explain {topic} in 2 sentences, like I'm 12 years old."),
-])
+prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", "You are an expert teacher. Explain concepts simply."),
+        ("human", "Explain {topic} in 2 sentences, like I'm 12 years old."),
+    ]
+)
 
 # The pipe operator chains: prompt → llm → string parser
 chain = prompt | llm | StrOutputParser()

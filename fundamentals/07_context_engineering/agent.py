@@ -61,11 +61,7 @@ class ContextSelection:
 
 def words(text: str) -> set[str]:
     """Normalize text into simple keywords for the transparent demo scorer."""
-    return {
-        word.lower()
-        for word in WORD_PATTERN.findall(text)
-        if word.lower() not in STOP_WORDS
-    }
+    return {word.lower() for word in WORD_PATTERN.findall(text) if word.lower() not in STOP_WORDS}
 
 
 def relevance_score(item: ContextItem, task: str) -> int:

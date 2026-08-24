@@ -42,12 +42,11 @@ class AgentState(TypedDict):
 # --- 2. Define Nodes ---
 # Each node is a function: State → dict of updates to State
 
+
 def research_node(state: AgentState) -> dict:
     """Node 1: Ask Claude a question about the topic."""
     print(f"[research_node] researching: {state['topic']}")
-    response = llm.invoke([
-        HumanMessage(content=f"Give me 3 key facts about: {state['topic']}")
-    ])
+    response = llm.invoke([HumanMessage(content=f"Give me 3 key facts about: {state['topic']}")])
     return {"messages": [response]}
 
 
@@ -55,9 +54,9 @@ def summary_node(state: AgentState) -> dict:
     """Node 2: Summarize what was found."""
     print("[summary_node] summarizing...")
     last_message = state["messages"][-1].content
-    response = llm.invoke([
-        HumanMessage(content=f"Summarize this in one sentence:\n\n{last_message}")
-    ])
+    response = llm.invoke(
+        [HumanMessage(content=f"Summarize this in one sentence:\n\n{last_message}")]
+    )
     return {"messages": [response]}
 
 

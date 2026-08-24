@@ -14,6 +14,7 @@ Usage:
 
 import os
 import sys
+from typing import Any
 
 import anthropic
 from dotenv import load_dotenv
@@ -43,7 +44,7 @@ def run_research_agent(question: str) -> str:
     print(f"Research question: {question}\n")
     print("=" * 50)
 
-    messages = [{"role": "user", "content": question}]
+    messages: list[dict[str, Any]] = [{"role": "user", "content": question}]
     step = 0
 
     while True:
@@ -64,9 +65,7 @@ def run_research_agent(question: str) -> str:
         messages.append({"role": "assistant", "content": response.content})
 
         if response.stop_reason == "end_turn":
-            final_text = next(
-                (b.text for b in response.content if hasattr(b, "text")), ""
-            )
+            final_text = next((b.text for b in response.content if hasattr(b, "text")), "")
             print("\n" + "=" * 50)
             print("RESEARCH REPORT")
             print("=" * 50)
@@ -82,18 +81,20 @@ def run_research_agent(question: str) -> str:
                     # Show a preview of the result
                     preview = result[:120] + "..." if len(result) > 120 else result
                     print(f"  Result preview: {preview}")
-                    tool_results.append({
-                        "type": "tool_result",
-                        "tool_use_id": block.id,
-                        "content": result,
-                    })
+                    tool_results.append(
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": result,
+                        }
+                    )
 
             messages.append({"role": "user", "content": tool_results})
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python agent.py \"Your research question here\"")
+        print('Usage: python agent.py "Your research question here"')
         sys.exit(1)
 
     question = " ".join(sys.argv[1:])

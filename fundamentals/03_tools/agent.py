@@ -10,6 +10,7 @@ Lesson 04 will handle multiple sequential tool calls (the agentic loop).
 
 import json
 import os
+from typing import Any
 
 import anthropic
 from dotenv import load_dotenv
@@ -41,15 +42,23 @@ tools = [
 def search_web(query: str) -> str:
     """Mock web search — returns fake results for demonstration."""
     print(f"  [tool] search_web called with query: '{query}'")
-    return json.dumps([
-        {"title": "Intro to AI Agents", "snippet": "An AI agent perceives its environment and takes actions to achieve goals."},
-        {"title": "Agentic AI Overview", "snippet": "Agents use tools, memory, and planning to complete multi-step tasks autonomously."},
-    ])
+    return json.dumps(
+        [
+            {
+                "title": "Intro to AI Agents",
+                "snippet": "An AI agent perceives its environment and takes actions to achieve goals.",
+            },
+            {
+                "title": "Agentic AI Overview",
+                "snippet": "Agents use tools, memory, and planning to complete multi-step tasks autonomously.",
+            },
+        ]
+    )
 
 
 # --- Single interaction with tool use ---
 user_message = "What are AI agents? Search the web and summarize what you find."
-messages = [{"role": "user", "content": user_message}]
+messages: list[dict[str, Any]] = [{"role": "user", "content": user_message}]
 
 print(f"User: {user_message}\n")
 
@@ -76,16 +85,18 @@ if response.stop_reason == "tool_use":
 
     # Step 4: Add Claude's response and the tool result to history, then call again
     messages.append({"role": "assistant", "content": response.content})
-    messages.append({
-        "role": "user",
-        "content": [
-            {
-                "type": "tool_result",
-                "tool_use_id": tool_use_block.id,
-                "content": tool_result,
-            }
-        ],
-    })
+    messages.append(
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "tool_result",
+                    "tool_use_id": tool_use_block.id,
+                    "content": tool_result,
+                }
+            ],
+        }
+    )
 
     final_response = client.messages.create(
         model="claude-sonnet-4-6",

@@ -33,9 +33,12 @@ llm = ChatAnthropic(
 
 
 # --- State ---
+Route = Literal["math", "science", "general"]
+
+
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
-    route: str   # set by the triage node, read by the conditional edge
+    route: Route  # set by the triage node, read by the conditional edge
 
 
 # --- Triage node: decides the route ---
@@ -44,10 +47,16 @@ def triage_node(state: AgentState) -> dict:
     question = state["messages"][-1].content
     print(f"[triage_node] classifying: '{question[:60]}...'")
 
-    response = llm.invoke([HumanMessage(content=(
-        f"Classify this question into exactly one category: math, science, or general.\n"
-        f"Reply with ONLY the category word.\n\nQuestion: {question}"
-    ))])
+    response = llm.invoke(
+        [
+            HumanMessage(
+                content=(
+                    f"Classify this question into exactly one category: math, science, or general.\n"
+                    f"Reply with ONLY the category word.\n\nQuestion: {question}"
+                )
+            )
+        ]
+    )
 
     route = response.content.strip().lower()
     if route not in ("math", "science"):
@@ -60,17 +69,17 @@ def triage_node(state: AgentState) -> dict:
 # --- Specialist nodes ---
 def math_node(state: AgentState) -> dict:
     print("[math_node] answering math question")
-    response = llm.invoke([
-        HumanMessage(content="You are a math tutor. " + state["messages"][-1].content)
-    ])
+    response = llm.invoke(
+        [HumanMessage(content="You are a math tutor. " + state["messages"][-1].content)]
+    )
     return {"messages": [response]}
 
 
 def science_node(state: AgentState) -> dict:
     print("[science_node] answering science question")
-    response = llm.invoke([
-        HumanMessage(content="You are a science teacher. " + state["messages"][-1].content)
-    ])
+    response = llm.invoke(
+        [HumanMessage(content="You are a science teacher. " + state["messages"][-1].content)]
+    )
     return {"messages": [response]}
 
 
@@ -82,7 +91,7 @@ def general_node(state: AgentState) -> dict:
 
 # --- Conditional edge function ---
 # Takes state, returns the name of the next node to visit.
-def route_question(state: AgentState) -> Literal["math", "science", "general"]:
+def route_question(state: AgentState) -> Route:
     return state["route"]
 
 

@@ -34,9 +34,7 @@ def test_put_updates_existing_key(tmp_path):
     store.put("style", "verbose", "user", now=lambda: FIXED_TIME)
     store.put("style", "concise", "user", now=lambda: FIXED_TIME)
 
-    assert [(record.key, record.value) for record in store.all()] == [
-        ("style", "concise")
-    ]
+    assert [(record.key, record.value) for record in store.all()] == [("style", "concise")]
 
 
 def test_search_retrieves_relevant_memory_only(tmp_path):

@@ -85,7 +85,7 @@ graph_builder.add_node("tools", tool_node)
 
 graph_builder.add_edge(START, "agent")
 graph_builder.add_conditional_edges("agent", tools_condition)  # loop or end
-graph_builder.add_edge("tools", "agent")                       # always back to agent
+graph_builder.add_edge("tools", "agent")  # always back to agent
 
 graph = graph_builder.compile()
 
@@ -94,12 +94,18 @@ print("=" * 55)
 print("LANGGRAPH — ReAct Agent")
 print("=" * 55)
 
-result = graph.invoke({
-    "messages": [HumanMessage(content=(
-        "Calculate 15% of 840, then count the words in "
-        "'The quick brown fox jumps over the lazy dog'."
-    ))]
-})
+result = graph.invoke(
+    {
+        "messages": [
+            HumanMessage(
+                content=(
+                    "Calculate 15% of 840, then count the words in "
+                    "'The quick brown fox jumps over the lazy dog'."
+                )
+            )
+        ]
+    }
+)
 
 print("\nFinal answer:")
 print(result["messages"][-1].content)
