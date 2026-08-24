@@ -1,0 +1,38 @@
+# dependabot.yml — Automated Dependency Updates
+#
+# Dependabot automatically opens pull requests when your dependencies
+# have new versions available.
+#
+# Why this matters for AI repos:
+#   - anthropic SDK: releases frequently, often with new model support
+#   - langchain + langgraph: update weekly, occasionally break APIs
+#   - Dependabot PRs let you update on your schedule with full CI running
+#
+# Two ecosystems monitored:
+#   1. pip: Python packages (requirements.txt, requirements-dev.txt)
+#   2. github-actions: the actions used in .github/workflows/
+
+version: 2
+
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"              # look for requirements*.txt at repo root
+    schedule:
+      interval: "weekly"        # check every Monday
+      day: "monday"
+      time: "08:00"             # 1 hour before the audit runs
+      timezone: "UTC"
+    open-pull-requests-limit: 5 # don't flood with PRs
+    labels:
+      - "dependencies"
+      - "python"
+
+  # GitHub Actions versions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"

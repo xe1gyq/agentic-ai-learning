@@ -1,0 +1,49 @@
+# audit.yml — Security & Dependency Audit
+#
+# Runs automatically every Monday at 9am UTC.
+# Also runnable manually from the GitHub Actions tab (workflow_dispatch).
+#
+# What it checks:
+#   pip-audit: scans all dependencies for known CVEs (security vulnerabilities)
+#
+# Why weekly?
+#   New vulnerabilities are published constantly. anthropic, langchain, and
+#   langgraph all update frequently — a package safe today may not be safe
+#   next week.
+#
+# If pip-audit finds a vulnerability, it will:
+#   1. Fail the workflow
+#   2. Show the CVE ID, affected package, and fixed version
+#   3. Send you a GitHub notification
+
+name: Security Audit
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"   # every Monday at 09:00 UTC
+  workflow_dispatch:        # allows manual trigger from GitHub UI
+
+jobs:
+  audit:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Audit runtime dependencies
+        run: |
+          echo "Auditing requirements.txt..."
+          pip-audit -r requirements.txt --desc
+
+      - name: Audit dev dependencies
+        run: |
+          echo "Auditing requirements-dev.txt..."
+          pip-audit -r requirements-dev.txt --desc

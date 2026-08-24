@@ -1,0 +1,108 @@
+# ci.yml — Continuous Integration
+#
+# Runs on every push and pull request.
+# Three jobs run in parallel: lint, typecheck, test.
+# All three must pass before a PR can be merged (enforce via branch protection).
+#
+# Secrets needed:
+#   CODECOV_TOKEN — from codecov.io (free for public repos, optional)
+
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  # -----------------------------------------------------------------------
+  # Job 1: Lint & Format (ruff)
+  # Catches: unused imports, bad style, wrong formatting
+  # Fast: ~5 seconds
+  # -----------------------------------------------------------------------
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff lint
+        run: ruff check .
+
+      - name: Run ruff format check
+        run: ruff format --check .
+
+  # -----------------------------------------------------------------------
+  # Job 2: Type checking (mypy)
+  # Catches: wrong types, missing attributes, incorrect function signatures
+  # -----------------------------------------------------------------------
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install mypy + stubs
+        run: pip install mypy types-requests
+
+      - name: Run mypy
+        run: mypy . --ignore-missing-imports --exclude venv
+
+  # -----------------------------------------------------------------------
+  # Job 3: Tests + Coverage
+  # Runs the full pytest suite with a fake API key (no real calls made).
+  # Uploads coverage to Codecov (optional — works without the secret too).
+  # -----------------------------------------------------------------------
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Cache pip downloads to speed up subsequent runs
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run tests
+        env:
+          ANTHROPIC_API_KEY: "sk-ant-test-fake-key-for-ci"
+        run: pytest --cov=. --cov-report=xml --cov-report=term-missing
+
+      # Upload coverage to Codecov (free for public repos)
+      # Get your token at https://codecov.io after connecting your GitHub repo
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          fail_ci_if_error: false   # don't fail CI if Codecov is down
