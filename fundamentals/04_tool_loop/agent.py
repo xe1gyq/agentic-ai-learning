@@ -7,10 +7,12 @@ Claude can call tools multiple times before giving a final answer.
 This is the observe -> think -> act cycle that drives autonomous agents.
 """
 
-import os
 import json
-from dotenv import load_dotenv
+import os
+from typing import Any
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -23,9 +25,7 @@ tools = [
         "description": "Search the web for information. Returns relevant snippets.",
         "input_schema": {
             "type": "object",
-            "properties": {
-                "query": {"type": "string", "description": "The search query"}
-            },
+            "properties": {"query": {"type": "string", "description": "The search query"}},
             "required": ["query"],
         },
     },
@@ -34,9 +34,7 @@ tools = [
         "description": "Retrieve the full content of a web page by URL.",
         "input_schema": {
             "type": "object",
-            "properties": {
-                "url": {"type": "string", "description": "The URL to fetch"}
-            },
+            "properties": {"url": {"type": "string", "description": "The URL to fetch"}},
             "required": ["url"],
         },
     },
@@ -44,11 +42,23 @@ tools = [
 
 MOCK_SEARCH_RESULTS = {
     "AI agents": [
-        {"title": "What is an AI Agent?", "url": "https://example.com/ai-agents", "snippet": "An AI agent perceives its environment and takes autonomous actions."},
-        {"title": "Types of AI Agents", "url": "https://example.com/agent-types", "snippet": "Reactive, deliberative, and hybrid agents each have different architectures."},
+        {
+            "title": "What is an AI Agent?",
+            "url": "https://example.com/ai-agents",
+            "snippet": "An AI agent perceives its environment and takes autonomous actions.",
+        },
+        {
+            "title": "Types of AI Agents",
+            "url": "https://example.com/agent-types",
+            "snippet": "Reactive, deliberative, and hybrid agents each have different architectures.",
+        },
     ],
     "agentic loop": [
-        {"title": "The Agentic Loop Explained", "url": "https://example.com/loop", "snippet": "The observe-think-act loop is the foundation of all autonomous agents."},
+        {
+            "title": "The Agentic Loop Explained",
+            "url": "https://example.com/loop",
+            "snippet": "The observe-think-act loop is the foundation of all autonomous agents.",
+        },
     ],
 }
 
@@ -82,7 +92,7 @@ def run_tool(name: str, tool_input: dict) -> str:
 # --- Agentic loop ---
 def run_agent(user_task: str):
     print(f"Task: {user_task}\n")
-    messages = [{"role": "user", "content": user_task}]
+    messages: list[dict[str, Any]] = [{"role": "user", "content": user_task}]
     step = 0
 
     while True:
@@ -103,9 +113,7 @@ def run_agent(user_task: str):
 
         if response.stop_reason == "end_turn":
             # Agent is done — extract and return final text
-            final_text = next(
-                (b.text for b in response.content if hasattr(b, "text")), ""
-            )
+            final_text = next((b.text for b in response.content if hasattr(b, "text")), "")
             print(f"\nFinal answer:\n{final_text}")
             return final_text
 
@@ -115,11 +123,13 @@ def run_agent(user_task: str):
             for block in response.content:
                 if block.type == "tool_use":
                     result = run_tool(block.name, block.input)
-                    tool_results.append({
-                        "type": "tool_result",
-                        "tool_use_id": block.id,
-                        "content": result,
-                    })
+                    tool_results.append(
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": result,
+                        }
+                    )
 
             # Feed all results back in one user message
             messages.append({"role": "user", "content": tool_results})

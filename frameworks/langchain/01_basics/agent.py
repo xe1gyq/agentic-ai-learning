@@ -13,6 +13,7 @@ What LangChain adds:
 """
 
 import os
+
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage
@@ -27,9 +28,7 @@ llm = ChatAnthropic(
 )
 
 # .invoke() takes a list of messages (just like the raw SDK)
-response = llm.invoke([
-    HumanMessage(content="What is an AI agent? Answer in 3 sentences.")
-])
+response = llm.invoke([HumanMessage(content="What is an AI agent? Answer in 3 sentences.")])
 
 print("Claude says:")
 print(response.content)

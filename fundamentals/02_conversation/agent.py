@@ -6,8 +6,9 @@ what was said earlier in the conversation.
 """
 
 import os
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 

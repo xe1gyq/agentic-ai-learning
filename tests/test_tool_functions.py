@@ -12,13 +12,12 @@ Functions tested:
 """
 
 import json
-import pytest
-
 
 # ---------------------------------------------------------------------------
 # calculate() — tested independently (same logic appears in multiple files)
 # We define it here to avoid importing scripts with module-level side effects.
 # ---------------------------------------------------------------------------
+
 
 def calculate(expression: str) -> str:
     """The calculate function used across multiple lessons."""
@@ -67,6 +66,7 @@ class TestCalculate:
 # word_count() — the LangChain/LangGraph tool
 # ---------------------------------------------------------------------------
 
+
 def word_count(text: str) -> str:
     """Count words — same logic as frameworks/langchain/03_agent and langgraph/02."""
     count = len(text.split())
@@ -74,7 +74,6 @@ def word_count(text: str) -> str:
 
 
 class TestWordCount:
-
     def test_simple_sentence(self):
         assert word_count("hello world") == "2 words"
 
@@ -129,7 +128,6 @@ def run_tool(name: str, tool_input: dict) -> str:
 
 
 class TestRunToolDispatch:
-
     def test_dispatches_search_web(self):
         result = run_tool("search_web", {"query": "AI agents"})
         data = json.loads(result)

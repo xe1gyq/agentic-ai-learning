@@ -12,8 +12,9 @@ improve until all three words appear, or we hit MAX_TURNS.
 """
 
 import os
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -23,6 +24,7 @@ client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 # GOAL DEFINITION — you write this, not Claude
 # ---------------------------------------------------------------
 REQUIRED_KEYWORDS = ["reliable", "fast", "affordable"]
+
 
 def goal_met(text: str) -> bool:
     """Return True when all required keywords appear in the output."""

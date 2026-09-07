@@ -6,8 +6,9 @@ Send one message, get one response.
 """
 
 import os
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -16,9 +17,7 @@ client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 message = client.messages.create(
     model="claude-sonnet-4-6",
     max_tokens=1024,
-    messages=[
-        {"role": "user", "content": "What is an AI agent? Answer in 3 sentences."}
-    ],
+    messages=[{"role": "user", "content": "What is an AI agent? Answer in 3 sentences."}],
 )
 
 print("Claude says:")

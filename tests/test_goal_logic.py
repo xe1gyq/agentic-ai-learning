@@ -18,7 +18,6 @@ For now, we test the goal logic independently — same function, tested inline.
 
 import pytest
 
-
 REQUIRED_KEYWORDS = ["reliable", "fast", "affordable"]
 
 
@@ -33,7 +32,6 @@ def goal_met(text: str) -> bool:
 
 
 class TestGoalMet:
-
     def test_all_keywords_present(self):
         text = "This service is reliable, fast, and affordable for everyone."
         assert goal_met(text) is True
@@ -76,11 +74,14 @@ class TestGoalMetWithDifferentKeywords:
     pytest.mark.parametrize runs the same test with multiple inputs.
     """
 
-    @pytest.mark.parametrize("text,expected", [
-        ("fast and reliable and affordable", True),
-        ("fast and reliable", False),
-        ("", False),
-        ("reliable FAST AFFORDABLE", True),
-    ])
+    @pytest.mark.parametrize(
+        "text,expected",
+        [
+            ("fast and reliable and affordable", True),
+            ("fast and reliable", False),
+            ("", False),
+            ("reliable FAST AFFORDABLE", True),
+        ],
+    )
     def test_parametrized(self, text: str, expected: bool):
         assert goal_met(text) is expected

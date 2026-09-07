@@ -16,9 +16,10 @@ import os
 import sys
 import time
 from datetime import datetime
-from dotenv import load_dotenv
+
 import anthropic
 import schedule
+from dotenv import load_dotenv
 
 load_dotenv()
 
