@@ -13,6 +13,7 @@ keeping the previous mechanisms visible.
 | `06_structured_outputs` | Output contract | Can deterministic code consume the result safely? |
 | `07_context_engineering` | Attention | Which information earns space in the next call? |
 | `08_state_and_memory` | Time | What lives for one step, one run, or many runs? |
+| `09_agent_evaluations` | Evidence | Did repeated runs achieve the outcome within constraints? |
 
 ## System mental model
 
@@ -31,12 +32,12 @@ context policy, storage, permissions, verification, and stop conditions.
 
 ## Why the order matters
 
-Lessons 01–05 create capability. Lessons 06–08 introduce boundaries around that capability:
+Lessons 01–05 create capability. Lessons 06–09 introduce boundaries around that capability:
 
 - a **schema boundary** for downstream consumers;
 - an **attention boundary** for finite context;
 - a **time boundary** between ephemeral state and durable memory.
+- an **evidence boundary** between claimed completion and measured success.
 
-The next stage adds executive control: evidence-based verification, budgets, replanning,
-human approval, and durable execution.
-
+The next stage adds executive control: reliability policies, replanning, human approval,
+and durable execution.

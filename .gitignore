@@ -5,4 +5,9 @@ venv/
 .venv/
 *.memory.json
 *.memory.json.tmp
-
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

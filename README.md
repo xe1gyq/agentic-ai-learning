@@ -24,6 +24,7 @@ cp .env.example .env
 | fundamentals/06_structured_outputs | Output contracts | Schema-valid JSON and downstream validation |
 | fundamentals/07_context_engineering | Context selection | Relevance, provenance, budgets, and token counting |
 | fundamentals/08_state_and_memory | State and memory | Ephemeral run state vs. durable, retrieved memory |
+| fundamentals/09_agent_evaluations | Agent evaluations | Cases, repeated trials, graders, trajectories, and regression gates |
 
 The model supplies probabilistic reasoning. The surrounding application owns contracts,
 context policy, storage, permissions, verification, and stop conditions. See the
@@ -69,4 +70,3 @@ Same patterns rebuilt with LangChain and LangGraph. Compare side by side.
 - [LangGraph Docs](https://langchain-ai.github.io/langgraph/)
 - Book: *Building Applications with AI Agents* — Michael Albada
 - Webinar: *Startup Builds: Getting Started with Loops* — Mark Nowicki, Anthropic
-
