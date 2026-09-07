@@ -309,7 +309,7 @@ def render_report(report: SuiteReport) -> str:
     status = "PASS" if report.passed else "FAIL"
     lines = [
         f"Evaluation suite: {status}",
-        f"Trials: {report.passed_trials}/{report.total_trials} passed " f"({report.pass_rate:.0%})",
+        f"Trials: {report.passed_trials}/{report.total_trials} passed ({report.pass_rate:.0%})",
         f"Mean tokens: {report.mean_total_tokens:.1f}",
         f"Mean latency: {report.mean_latency_ms:.1f} ms",
         "Cases:",

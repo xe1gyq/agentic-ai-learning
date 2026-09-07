@@ -6,8 +6,8 @@
 pytest          # test runner
 pytest-mock     # mock fixtures (mocker.patch, etc.)
 pytest-cov      # coverage reporting
-ruff            # fast linter + formatter (replaces flake8 + black + isort)
-mypy            # static type checker
+ruff==0.16.6     # match the pinned pre-commit and CI formatter
+mypy==2.3.1      # match the pinned pre-commit and CI type checker
 pre-commit      # git hook runner
 pip-audit       # dependency vulnerability scanner
 types-requests  # mypy stubs for the requests library

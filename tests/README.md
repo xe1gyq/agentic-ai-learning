@@ -28,6 +28,7 @@ open htmlcov/index.html
 | `test_structured_outputs.py` | Task schema validation and structured-output API configuration |
 | `test_context_engineering.py` | Required context, relevance, deduplication, budgets, provenance |
 | `test_state_and_memory.py` | Durable memory, retrieval, corruption handling, ephemeral run state |
+| `test_agent_evaluations.py` | Outcome, grounding, trajectory, budgets, and suite aggregation |
 
 `lesson_loader.py` imports the actual lesson scripts by path. This lets tests exercise the
 production functions even though numbered lesson folders are not valid Python package names.
@@ -42,6 +43,6 @@ production functions even though numbered lesson folders are not valid Python pa
 - **Persistence tests** — use temporary storage to verify behavior across store instances
 - **`conftest.py`** — shared fixtures available to all test files automatically
 
-These are software tests. Agent evaluations—quality, trajectory, grounding, cost, and
-regressions across non-deterministic runs—belong to the next curriculum stage.
-
+The Lesson 09 tests verify the deterministic evaluation machinery. The separate offline
+evaluation runner then applies that machinery to recorded agent trials. Live model trials
+remain outside pull-request CI because they are non-deterministic and incur API cost.

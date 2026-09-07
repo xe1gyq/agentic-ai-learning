@@ -16,7 +16,7 @@
 repos:
   # ruff: linting (catches bugs, bad imports, unused vars)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: v0.16.6
     hooks:
       - id: ruff
         name: ruff lint
@@ -24,21 +24,23 @@ repos:
       - id: ruff-format
         name: ruff format      # replaces black
 
-  # mypy: static type checking
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.2
+  # mypy: check each standalone lesson separately because folders intentionally
+  # reuse names such as agent.py and are not Python packages.
+  - repo: local
     hooks:
-      - id: mypy
+      - id: mypy-per-file
         name: mypy type check
+        entry: python scripts/typecheck.py
+        language: python
         additional_dependencies:
+          - mypy==2.3.1
           - types-requests      # stubs for requests library
-        args: [--ignore-missing-imports]
-        # Only check files we have tests for (avoid checking venv/)
+        types: [python]
         exclude: ^(venv/|\.github/)
 
   # General hooks: trailing whitespace, file endings, YAML/TOML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer

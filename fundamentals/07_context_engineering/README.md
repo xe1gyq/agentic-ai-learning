@@ -61,4 +61,3 @@ counts.
 - [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 - [Claude token counting](https://platform.claude.com/docs/en/build-with-claude/token-counting)
 - [Claude compaction](https://platform.claude.com/docs/en/build-with-claude/compaction)
-

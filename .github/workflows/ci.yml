@@ -35,7 +35,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install ruff
-        run: pip install ruff
+        run: pip install ruff==0.16.6
 
       - name: Run ruff lint
         run: ruff check .
@@ -59,14 +59,12 @@ jobs:
           python-version: "3.11"
 
       - name: Install mypy + stubs
-        run: pip install mypy types-requests
+        run: pip install mypy==2.3.1 types-requests
 
       - name: Run mypy
         # Numbered lessons are standalone scripts and intentionally reuse agent.py.
         # Check each script independently so mypy does not collapse them into one module.
-        run: |
-          find fundamentals frameworks loops tests -type f -name '*.py' -print0 \
-            | xargs -0 -n 1 mypy --ignore-missing-imports
+        run: python scripts/typecheck.py fundamentals frameworks loops tests
 
   # -----------------------------------------------------------------------
   # Job 3: Tests + Coverage
@@ -110,3 +108,24 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
           fail_ci_if_error: false   # don't fail CI if Codecov is down
+
+  # -----------------------------------------------------------------------
+  # Job 4: Offline Agent Evaluations
+  # Different from unit tests: grades recorded end-to-end agent trials.
+  # It is deterministic, makes no API calls, and fails on behavioral regression.
+  # -----------------------------------------------------------------------
+  offline-evals:
+    name: Offline Agent Evals
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Grade recorded research-agent trials
+        run: |
+          python fundamentals/09_agent_evaluations/run_evals.py \
+            --min-pass-rate 1.0
