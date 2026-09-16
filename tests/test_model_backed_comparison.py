@@ -127,13 +127,53 @@ def test_tool_loop_stops_before_exceeding_tool_budget():
         asyncio.run(gateway.run_tool_loop("system", "query", max_output_tokens=80))
 
 
+def test_failed_api_call_releases_its_token_reservation():
+    class FailingMessages(FakeMessages):
+        async def create(self, **request):
+            raise RuntimeError("temporary API failure")
+
+    client = FakeClient([])
+    client.messages = FailingMessages([])
+    ledger = comparison.BudgetLedger(
+        comparison.ExperimentLimits(max_tokens=100, max_tool_calls=1, timeout_seconds=5)
+    )
+    gateway = comparison.ClaudeGateway(client, "claude-test", ledger, LocalCorpus())
+
+    with pytest.raises(RuntimeError, match="temporary"):
+        asyncio.run(gateway.run_tool_loop("system", "query", max_output_tokens=80))
+
+    reservation = asyncio.run(ledger.reserve_model_call(20, 80))
+    asyncio.run(ledger.cancel_model_call(reservation))
+
+
+def test_fixed_corpus_and_outcome_evaluator_check_grounded_coverage():
+    corpus = comparison.LearningCorpus()
+    results = asyncio.run(corpus.search("independent token trajectories"))
+    citation = results[0]["url"]
+    answer = f"Independent trajectories improve breadth but have a token cost. {citation}"
+
+    assert results[0]["title"] == "Independent search trajectories"
+    assert comparison.evaluate_outcome(answer, (citation,), corpus) is True
+    assert comparison.evaluate_outcome(answer, ("https://invented.test",), corpus) is False
+
+
 def test_multi_agent_adapters_translate_structured_claude_outputs():
     plan = {
         "complexity": "comparison",
         "rationale": "Two independent trajectories.",
         "tasks": [
-            {"id": "architecture", "objective": "Find architecture evidence", "queries": ["a"]},
-            {"id": "economics", "objective": "Find cost evidence", "queries": ["b"]},
+            {
+                "id": "architecture",
+                "objective": "Find architecture evidence",
+                "queries": ["a"],
+                "depends_on": [],
+            },
+            {
+                "id": "economics",
+                "objective": "Find cost evidence",
+                "queries": ["b"],
+                "depends_on": [],
+            },
         ],
     }
     gateway = SimpleNamespace(json_calls=[])

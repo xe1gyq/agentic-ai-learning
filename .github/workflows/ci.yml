@@ -64,7 +64,7 @@ jobs:
       - name: Run mypy
         # Numbered lessons are standalone scripts and intentionally reuse agent.py.
         # Check each script independently so mypy does not collapse them into one module.
-        run: python scripts/typecheck.py fundamentals frameworks loops tests
+        run: python scripts/typecheck.py fundamentals frameworks loops multi_agent tests
 
   # -----------------------------------------------------------------------
   # Job 3: Tests + Coverage
