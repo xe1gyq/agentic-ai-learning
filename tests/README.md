@@ -29,6 +29,7 @@ open htmlcov/index.html
 | `test_context_engineering.py` | Required context, relevance, deduplication, budgets, provenance |
 | `test_state_and_memory.py` | Durable memory, retrieval, corruption handling, ephemeral run state |
 | `test_agent_evaluations.py` | Outcome, grounding, trajectory, budgets, and suite aggregation |
+| `test_dynamic_multi_agent.py` | Independence, dynamic execution, parallelism, compression, budgets, resume, telemetry, and citations |
 
 `lesson_loader.py` imports the actual lesson scripts by path. This lets tests exercise the
 production functions even though numbered lesson folders are not valid Python package names.

@@ -79,12 +79,13 @@ Expected baseline:
 
 ```text
 Evaluation suite: PASS
-Trials: 4/4 passed (100%)
-Mean tokens: 655.5
-Mean latency: 870.0 ms
+Trials: 6/6 passed (100%)
+Mean tokens: 922.7
+Mean latency: 590.7 ms
 Cases:
   [PASS] agent-loop: 2/2 (100%)
   [PASS] langgraph-memory: 2/2 (100%)
+  [PASS] dynamic-multi-agent-research: 2/2 (100%)
 ```
 
 Machine-readable output:

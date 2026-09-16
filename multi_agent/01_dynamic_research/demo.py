@@ -12,6 +12,7 @@ import asyncio
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from uuid import uuid4
 
 try:
     from system import (
@@ -346,13 +347,18 @@ def parse_args() -> argparse.Namespace:
         default=Path(__file__).resolve().parent / ".demo_state",
         help="Directory for checkpoints and JSONL telemetry",
     )
-    parser.add_argument("--run-id", default="dynamic-research-demo")
+    parser.add_argument(
+        "--run-id",
+        default=None,
+        help="Stable ID for resume; omitted IDs create a fresh run",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    result, telemetry, search_tool = asyncio.run(run_demo(args.state_dir, args.run_id))
+    run_id = args.run_id or f"demo-{uuid4()}"
+    result, telemetry, search_tool = asyncio.run(run_demo(args.state_dir, run_id))
     print(result.report.answer)
     print("\nExecution summary:")
     print(f"  waves: {result.state.wave}")
