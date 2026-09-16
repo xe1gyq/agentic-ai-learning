@@ -69,11 +69,13 @@ Use multiple agents only when the graph contains genuinely independent work.
 | Example | What it shows |
 |---------|---------------|
 | `multi_agent/01_dynamic_research` | Lead/worker roles, dynamic graph expansion, nested parallelism, compression, budgets, checkpoints, telemetry, and outcome evals |
+| `multi_agent/02_model_backed_comparison` | Claude-backed lead/workers versus one Claude agent under the same corpus, token/tool budget, timeout, and evaluator |
 
 ## Reference
 
 - [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
 - [Claude API Docs](https://docs.anthropic.com)
+- [Anthropic: How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
 - [LangChain Docs](https://python.langchain.com)
 - [LangGraph Docs](https://langchain-ai.github.io/langgraph/)
 - Book: *Building Applications with AI Agents* — Michael Albada

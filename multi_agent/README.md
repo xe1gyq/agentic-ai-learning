@@ -12,6 +12,7 @@ The governing rule is:
 | Lesson | Architectural question |
 |--------|------------------------|
 | `01_dynamic_research` | Can an executive expand parallel research from emerging evidence? |
+| `02_model_backed_comparison` | Does multi-agent improve outcomes under the same model, evidence, and global budget? |
 
 Every lesson must compare the architecture against a simpler baseline and expose its
 resource consumption. More agents are a cost to justify, not a maturity badge.

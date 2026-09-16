@@ -12,3 +12,4 @@ htmlcov/
 .ruff_cache/
 .mypy_cache/
 multi_agent/01_dynamic_research/.demo_state/
+benchmark-report.json
