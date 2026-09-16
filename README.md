@@ -62,6 +62,14 @@ Same patterns rebuilt with LangChain and LangGraph. Compare side by side.
 | `frameworks/langgraph/02_react_agent` | ReAct loop as a visible graph |
 | `frameworks/langgraph/03_conditional` | Conditional routing between specialist nodes |
 
+## Multi-Agent Systems (`multi_agent/`)
+
+Use multiple agents only when the graph contains genuinely independent work.
+
+| Example | What it shows |
+|---------|---------------|
+| `multi_agent/01_dynamic_research` | Lead/worker roles, dynamic graph expansion, nested parallelism, compression, budgets, checkpoints, telemetry, and outcome evals |
+
 ## Reference
 
 - [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)

@@ -191,7 +191,7 @@ def test_reference_fixture_is_a_passing_offline_baseline():
 
     report = lesson.evaluate_suite(cases, trials, min_pass_rate=1.0)
 
-    assert report.total_trials == 4
+    assert report.total_trials == 6
     assert report.passed is True
     assert report.mean_total_tokens > 0
     assert report.mean_latency_ms > 0

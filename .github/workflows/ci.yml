@@ -12,8 +12,8 @@ name: CI
 on:
   push:
     branches: ["main"]
+  # Run for stacked PRs too, not only PRs whose immediate base is main.
   pull_request:
-    branches: ["main"]
 
 jobs:
   # -----------------------------------------------------------------------
