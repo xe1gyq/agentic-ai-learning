@@ -71,6 +71,10 @@ Use multiple agents only when the graph contains genuinely independent work.
 | `multi_agent/01_dynamic_research` | Lead/worker roles, dynamic graph expansion, nested parallelism, compression, budgets, checkpoints, telemetry, and outcome evals |
 | `multi_agent/02_model_backed_comparison` | Claude-backed lead/workers versus one Claude agent under the same corpus, token/tool budget, timeout, and evaluator |
 
+## Harness Engineering (`harness/`)
+
+Make the application-owned boundaries explicit before adopting another abstraction. Start with [`01_task_contract`](harness/01_task_contract/README.md): `goal / inputs / output / constraints / done_when`. The contract describes success but does not verify it. The [harness learning map](harness/README.md) outlines the next boundaries: permissions, durable state, verification loops, receipts, and turning failures into infrastructure.
+
 ## Reference
 
 - [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
