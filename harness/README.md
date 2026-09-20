@@ -4,7 +4,7 @@ The model proposes actions; the harness admits tasks, authorizes effects, preser
 
 | Lesson | Boundary introduced |
 |--------|---------------------|
-| `01_task_contract` | A complete task specification and an external completion gate |
+| `01_task_contract` | A minimal task specification with explicit acceptance criteria |
 | `02_tool_permissions` | Planned: model proposal → policy decision → tool execution |
 | `03_durable_state` | Planned: conversation context is not the system of record |
 | `04_verification_loop` | Planned: produce → check → repair, with bounded retries |

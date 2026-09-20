@@ -1,38 +1,40 @@
 # Lesson 01 — Task Contract
 
-An agent cannot safely decide that it is done if nobody has defined what *done* means. This lesson introduces the smallest harness boundary:
+> A human request is not yet an executable specification.
 
-```text
-incoming task → validate contract → produce output → independent checks → done / not done
+A worker given only “Research Python 3.14 changes” can produce related text, but the application cannot tell what output was required or what would count as done. The first test makes that ambiguity visible: `prepare_task` rejects a bare request without explicit acceptance criteria.
+
+This lesson adds only a frozen dataclass with five fields:
+
+```python
+@dataclass(frozen=True)
+class TaskContract:
+    goal: str
+    inputs: tuple[str, ...]
+    output: str
+    constraints: tuple[str, ...]
+    done_when: tuple[str, ...]
 ```
 
-The contract has five fields:
+It checks obvious omissions such as blank fields or an empty `done_when`, then passes the contract to a tiny example worker. No inheritance, registry, model call, persistence, retry, or tracing is involved.
 
-| Field | Purpose |
-|-------|---------|
-| `goal` | Desired outcome |
-| `inputs` | Named information supplied to the run |
-| `output` | Expected artifact key |
-| `constraints` | Declared limits on execution |
-| `done_when` | Named, observable completion criteria |
+```text
+human request → TaskContract → worker
+```
 
-`parse_contract` rejects missing, unknown, blank, or duplicated fields. It copies mutable input data into an immutable runtime representation, so a caller cannot silently change the task after admission.
-
-`check_completion` requires a non-empty output and one external verifier per criterion. Missing or broken verifiers fail closed. A model assertion such as “I finished” is not a verifier. This lesson deliberately does **not** enforce the declared constraints or grant tool permissions; those belong to later harness lessons.
-
-Run the offline walkthrough:
+Run it without an API key:
 
 ```bash
 python harness/01_task_contract/contract.py
 pytest tests/test_harness_task_contract.py
 ```
 
-Expected walkthrough result: `done=True` with both checks passing. To see the gate fail, remove the citation marker or one verifier.
+Three distinctions matter:
 
-The learning commits are `test → feat → docs`. Inspect them with:
+- Request ≠ contract: the request expresses intent; the contract makes expected output and acceptance criteria explicit.
+- Contract ≠ verifier: `done_when` is data. Lesson 04 will evaluate evidence against it.
+- Contract ≠ permission system: constraints are declared here; Lesson 02 will govern proposed actions.
 
-```bash
-git log --reverse -- harness/01_task_contract tests/test_harness_task_contract.py
-```
+The model proposes. The harness authorizes, records, and verifies. **Before any of that, the contract defines what the run is supposed to accomplish.**
 
-This builds on `fundamentals/06_structured_outputs`: schema-valid model output is only an input to the application. The application still owns admission, verification, and stopping.
+The PR began with `test → feat → docs`. A follow-up commit narrows Lesson 01 after review; inspect the full history with `git log --reverse -- harness/01_task_contract tests/test_harness_task_contract.py`.

@@ -73,7 +73,7 @@ Use multiple agents only when the graph contains genuinely independent work.
 
 ## Harness Engineering (`harness/`)
 
-Make the application-owned boundaries explicit before adopting another abstraction. Start with [`01_task_contract`](harness/01_task_contract/README.md): `goal / inputs / output / constraints / done_when`, plus an independent completion gate. The [harness learning map](harness/README.md) outlines the next boundaries: permissions, durable state, verification loops, receipts, and turning failures into infrastructure.
+Make the application-owned boundaries explicit before adopting another abstraction. Start with [`01_task_contract`](harness/01_task_contract/README.md): `goal / inputs / output / constraints / done_when`. The contract describes success but does not verify it. The [harness learning map](harness/README.md) outlines the next boundaries: permissions, durable state, verification loops, receipts, and turning failures into infrastructure.
 
 ## Reference
 
